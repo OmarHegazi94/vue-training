@@ -1,0 +1,46 @@
+<template>
+  <h1>Register</h1>
+  <form @submit.prevent="Register">
+    <input type="text" placeholder="Email" v-model="email" />
+    <input type="password" placeholder="Password" v-model="password" />
+
+    <button type="submit">Register</button>
+  </form>
+  <p>
+    Have an account?
+    <router-link to="/login">Login Here</router-link>
+  </p>
+</template>
+
+<script>
+import { ref } from "vue";
+import firebase from "firebase/app";
+import "firebase/auth";
+
+export default {
+  setup() {
+    const email = ref("");
+    const password = ref("");
+
+    const Register = () => {
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(email.value, password.value)
+        .then((user) => {
+          console.log(user);
+        })
+        .catch((err) => {
+          alert(err.message);
+        });
+    };
+
+    return {
+      Register,
+      email,
+      password,
+    };
+  },
+};
+</script>
+
+<style></style>
